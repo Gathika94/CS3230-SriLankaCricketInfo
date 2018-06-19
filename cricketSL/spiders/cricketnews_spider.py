@@ -17,7 +17,11 @@ class CricketSpider(scrapy.Spider):
                      'div.views-row.views-row-3.views-row-odd',
                      'div.views-row.views-row-4.views-row-even',
                      'div.views-row.views-row-5.views-row-odd',
-                     'div.views-row.views-row-6.views-row-even'
+                     'div.views-row.views-row-6.views-row-even',
+                     'div.views-row.views-row-7.views-row-odd',
+                     'div.views-row.views-row-8.views-row-even',
+                     'div.views-row.views-row-9.views-row-odd',
+                     'div.views-row.views-row-10.views-row-even'
                      ]
         for item in newsItems:
             href = response.css('div.view.view-page-news-2014.view-id-page_news_2014.view-display-id-page_1.view-dom-id-1').css(item).css('div.views-field-title').css('span.field-content').css('a::attr(href)').extract_first()
