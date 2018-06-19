@@ -9,6 +9,9 @@ class CricketSpider(scrapy.Spider):
         'https://island-cricket.com/cricket-news'
     ]
 
+    for i in range(1, 50):
+        start_urls.append("https://island-cricket.com/cricket-news?page=" + str(i))
+
 
 
     def parse(self,response):
