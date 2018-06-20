@@ -9,7 +9,7 @@ class CricketSpider(scrapy.Spider):
         'https://island-cricket.com/cricket-news'
     ]
 
-    for i in range(1, 50):
+    for i in range(1, 170):
         start_urls.append("https://island-cricket.com/cricket-news?page=" + str(i))
 
 
@@ -33,15 +33,32 @@ class CricketSpider(scrapy.Spider):
 
     def parse_news_page(self,response):
         title = response.css('h1::text').extract_first()
-        time = response.css('span.submitted::text').extract()
+        submittimeDetails = response.css('span.submitted::text').extract();
+        print()
+        year=""
+        month=""
+        date = ""
+        time = ""
+        if(len(submittimeDetails)>1):
+            timeDetails= submittimeDetails[1]
+            splittedTimeDetails = timeDetails.split()
+            month = splittedTimeDetails[1]
+            date = splittedTimeDetails[2]
+            year = splittedTimeDetails[3]
+            time = splittedTimeDetails[5]
+
         description = response.css('div.field.field-type-text.field-field-news-summary').css('div.field-items').css('div.field-item.odd::text').extract_first()
         origin_url = response.css('div.field.field-type-link.field-field-source').css('div.field-items').css('div.field-item.odd').css('a::attr(href)').extract_first()
 
         output = {
             'title': title,
-            'time': time,
             'description': description,
-            'origin_url': origin_url
+            'origin_url': origin_url,
+            'year':year,
+            'month' : month,
+            'date' : date,
+            'time' : time
+
         }
 
         data_file = open("cricket_data.json", "a+")
@@ -51,7 +68,10 @@ class CricketSpider(scrapy.Spider):
 
         yield {
             'title': title,
-            'time': time,
             'description': description,
-            'origin_url': origin_url
+            'origin_url': origin_url,
+            'year':year,
+            'month' : month,
+            'date' : date,
+            'time' : time
         }
